@@ -44,7 +44,7 @@ O sistema possibilita registrar serviços realizados, clientes atendidos e forma
 ---
 
 ## ✨ Features
-- **Cadastro de Serviços**: Registre cortes, barbas e outros atendimentos com data, horário e valor.  
+- **Cadastro de Serviços**: Registre cortes, barbas e outros atendimentos com data, valor e horário.  
 - **Relatórios Semanais**: Gere automaticamente relatórios em PDF com o faturamento da semana.  
 - **Pagamentos**: Suporte a múltiplas formas de pagamento (cartão, dinheiro, pix, etc).  
 - **Histórico**: Consulte o histórico de relatórios gerados e exporte novamente quando necessário.  
