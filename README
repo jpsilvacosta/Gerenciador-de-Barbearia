@@ -1,0 +1,65 @@
+# 💈 BarberShop Manager API – Gerenciador de Barbearia
+
+## 📌 Sobre o Projeto
+O **BarberShop Manager API**, desenvolvido em .NET, segue os princípios do Domain-Driven Design (DDD), com foco em organizar e automatizar a geração de relatórios semanais de faturamento da barbearia.
+
+O sistema possibilita registrar serviços realizados, clientes atendidos e formas de pagamento, consolidando os dados em um **relatório PDF semanal** no formato mostrado abaixo:
+
+- Corte de Cabelo  
+- Barba  
+- Combo (Corte + Barba)  
+- Outras categorias personalizáveis  
+
+📄 Exemplo de relatório:
+
+
+
+
+
+
+
+
+
+
+![Exemplo de Relatório](Relatório-Semanal.png)
+
+---
+
+## 🛠 Tecnologias Utilizadas
+- .NET 8
+- MySQL
+- Entity Framework Core
+- MigraDoc (para geração de PDF)
+- SwaggerUI
+
+---
+
+## 📦 Principais Pacotes NuGet
+- **Entity Framework Core** – ORM para mapeamento de objetos e persistência em banco de dados.
+- **FluentValidation** – Validação fluida e extensível para requests e entidades do domínio.
+- **AutoMapper** – Mapeamento automático entre DTOs e entidades.
+- **MigraDoc** – Biblioteca para geração e manipulação de arquivos PDF.
+- **Swashbuckle.AspNetCore** – Geração automática de documentação Swagger para a API.
+
+---
+
+## ✨ Features
+- **Cadastro de Serviços**: Registre cortes, barbas e outros atendimentos com data, horário e valor.  
+- **Relatórios Semanais**: Gere automaticamente relatórios em PDF com o faturamento da semana.  
+- **Pagamentos**: Suporte a múltiplas formas de pagamento (cartão, dinheiro, pix, etc).  
+- **Histórico**: Consulte o histórico de relatórios gerados e exporte novamente quando necessário.  
+- **DDD + Clean Architecture**: Projeto estruturado seguindo boas práticas de organização de código.  
+
+---
+
+## 🚀 Getting Started
+
+### 📋 Requisitos
+- Visual Studio 2022+ ou Visual Studio Code  
+- Windows 10+  
+- Banco de Dados MySQL rodando localmente ou em container Docker  
+
+### ⚙️ Instalação
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/jpsilvacosta/Gerenciador-de-Barbearia.git
