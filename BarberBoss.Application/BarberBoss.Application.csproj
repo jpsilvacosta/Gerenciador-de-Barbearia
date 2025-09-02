@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\Debug\net8.0\Logo\**" />
+    <EmbeddedResource Remove="bin\Debug\net8.0\Logo\**" />
+    <None Remove="bin\Debug\net8.0\Logo\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="UseCases\Services\Reports\Pdf\Fonts\BebasNeue-Regular.ttf" />
+    <None Remove="UseCases\Services\Reports\Pdf\Fonts\Roboto-Medium.ttf" />
+    <None Remove="UseCases\Services\Reports\Pdf\Fonts\Roboto-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="UseCases\Services\Reports\Pdf\Fonts\BebasNeue-Regular.ttf" />
+    <EmbeddedResource Include="UseCases\Services\Reports\Pdf\Fonts\Roboto-Medium.ttf" />
+    <EmbeddedResource Include="UseCases\Services\Reports\Pdf\Fonts\Roboto-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BarberBoss.Communication\BarberBoss.Communication.csproj" />
+    <ProjectReference Include="..\BarberBoss.Domain\BarberBoss.Domain.csproj" />
+    <ProjectReference Include="..\BarberBoss.Exception\BarberBoss.Exception.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="PDFsharp-MigraDoc" Version="6.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Debug\net8.0\" />
+  </ItemGroup>
+
+</Project>
