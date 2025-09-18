@@ -1,15 +1,12 @@
 ﻿using BarberBoss.Application.UseCases.Services.Reports.Pdf.Colors;
 using BarberBoss.Application.UseCases.Services.Reports.Pdf.Fonts;
-using BarberBoss.Domain.Enums;
 using BarberBoss.Domain.Extensions;
 using BarberBoss.Domain.Reports;
 using BarberBoss.Domain.Repositories.Services;
 using MigraDoc.DocumentObjectModel;
-using MigraDoc.DocumentObjectModel.Shapes;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharp.Fonts;
-using PdfSharp.Snippets.Drawing;
 using System.Globalization;
 using System.Reflection;
 using Document = MigraDoc.DocumentObjectModel.Document;
