@@ -58,8 +58,50 @@ O sistema possibilita registrar serviços realizados, clientes atendidos e forma
 - Visual Studio 2022+ ou Visual Studio Code  
 - Windows 10+  
 - Banco de Dados MySQL rodando localmente ou em container Docker  
+- **Docker Desktop** (para rodar com Docker)  
 
-### ⚙️ Instalação
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/jpsilvacosta/Gerenciador-de-Barbearia.git
+---
+
+## 🐳 Rodando com Docker (Recomendado)
+
+> Este repositório já inclui **Dockerfile** e **docker-compose.yml** configurados para subir **API + MySQL**.
+
+### 1) Clonar o repositório
+```bash
+git clone https://github.com/jpsilvacosta/Gerenciador-de-Barbearia.git
+cd Gerenciador-de-Barbearia
+```
+### 2) Suba os containers com Docker Compose:
+```bash
+docker-compose up --build
+```
+> Isto vai subir dois containers:
+- "**barberboss-mysql**:banco MySQL"
+- "**barberboss-api**:sua API .NET"
+
+### 3) Aguarde até que o Docker finalize o build.
+### 4) Acesse a API pelo navegador no endereço:
+```bash
+http://localhost:5000/swagger
+```
+> Você verá a documentação interativa da API.
+
+## 🛠️ Comandos úteis
+- **Ver logs da API:**
+```bash
+docker logs barberboss-api
+```
+- **Parar containers:**
+```bash
+docker-compose down
+```
+- **Recriar do zero(caso dê erro):**
+```bash
+docker-compose down -v
+docker-compose up --build
+```
+
+Acesse a [documentação oficial do Docker](https://docs.docker.com/) para mais detalhes.
+
+## 🧾 Licença
+Projeto educacional para fins de estudo/demonstração.
