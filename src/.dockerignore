@@ -1,0 +1,4 @@
+# Ignorar pastas de build e de usuário do Visual Studio
+**/bin
+**/obj
+**/.vs

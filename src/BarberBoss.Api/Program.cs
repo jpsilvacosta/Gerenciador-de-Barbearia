@@ -16,17 +16,17 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(config =>
 {
     config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Description = @"JWT Authorization header using the Bearer scheme.
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      Example: 'Bearer 1234abcdef'",
+        Description = @"JWT Authorization header usando o esquema Bearer.
+                        Digite 'Bearer' [espaço] e depois seu token.
+                        Exemplo: 'Bearer 1234abcdef'",
         In = ParameterLocation.Header,
         Scheme = "Bearer",
         Type = SecuritySchemeType.ApiKey
@@ -57,7 +57,6 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
 builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
-
 builder.Services.AddHttpContextAccessor();
 
 var signingKey = builder.Configuration.GetValue<string>("Settings:Jwt:SigningKey");
@@ -66,7 +65,8 @@ builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(config =>
+})
+.AddJwtBearer(config =>
 {
     config.TokenValidationParameters = new TokenValidationParameters
     {
@@ -78,6 +78,11 @@ builder.Services.AddAuthentication(config =>
 });
 
 builder.Services.AddHealthChecks().AddDbContextCheck<BarberBossDbContext>();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80);
+});
 
 var app = builder.Build();
 
@@ -91,11 +96,12 @@ app.MapHealthChecks("/Health", new HealthCheckOptions
     }
 });
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BarberBoss API v1");
+    c.RoutePrefix = "swagger"; 
+});
 
 app.UseMiddleware<CultureMiddleware>();
 
@@ -106,7 +112,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-if(builder.Configuration.IsTestEnvironment() == false)
+if (builder.Configuration.IsTestEnvironment() == false)
 {
     await MigrateDatabase();
 }
@@ -116,7 +122,6 @@ app.Run();
 async Task MigrateDatabase()
 {
     await using var scope = app.Services.CreateAsyncScope();
-
     await DataBaseMigration.MigrateDatabase(scope.ServiceProvider);
 }
 
