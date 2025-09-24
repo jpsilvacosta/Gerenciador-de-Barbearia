@@ -18,8 +18,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restaurar dependências
-        run: dotnet restore ./BarberBoss.sln
+      - name: Restore dependencies
+        run: dotnet restore BarberBoss.sln
 
-      - name: Rodar Unit Tests
-        run: dotnet test ./BarberBoss.sln --no-build --verbosity normal
+      - name: Run Unit Tests
+        run: dotnet test BarberBoss.sln --no-build --verbosity normal
