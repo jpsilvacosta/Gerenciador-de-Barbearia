@@ -21,5 +21,5 @@ jobs:
       - name: Restaurar dependências
         run: dotnet restore ./BarberBoss.sln
 
-      - name: Rodar testes de integração
+      - name: Rodar Integration Tests
         run: dotnet test ./tests --no-build --verbosity normal
