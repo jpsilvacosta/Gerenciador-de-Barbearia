@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore Gerenciador-de-Barbearia.sln
+        run: dotnet restore BarberBoss.sln
 
       - name: Run Unit Tests
-        run: dotnet test Gerenciador-de-Barbearia.sln
+        run: dotnet test BarberBoss.sln
