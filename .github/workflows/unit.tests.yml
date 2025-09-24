@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  test:
+  run-unit-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restaurar dependências
-        run: dotnet restore
+        run: dotnet restore ./BarberBoss.sln
 
-      - name: Rodar testes unitários
-        run: dotnet test --filter TestCategory=Unit --no-build --verbosity normal
+      - name: Rodar todos os testes
+        run: dotnet test ./tests --no-build --verbosity normal
