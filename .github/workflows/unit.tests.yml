@@ -22,4 +22,7 @@ jobs:
         run: dotnet restore BarberBoss.sln
 
       - name: Run Unit Tests
-        run: dotnet test BarberBoss.sln --verbosity normal
+        run: |
+          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --verbosity normal
+          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --verbosity normal
+          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --verbosity normal
