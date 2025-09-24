@@ -19,7 +19,9 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Run UseCases Unit Tests
-        run: dotnet test Gerenciador-de-Barbearia/tests/UseCases.Test/UseCases.Test.csproj
+        run: dotnet test tests/UseCases.Test/UseCases.Test.csproj
+        working-directory: Gerenciador-de-Barbearia
 
       - name: Run WebApi Unit Tests
         run: dotnet test Gerenciador-de-Barbearia/tests/WebApi.Test/WebApi.Test.csproj
+        working-directory: Gerenciador-de-Barbearia
