@@ -18,10 +18,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Run UseCases Unit Tests
-        run: dotnet test tests/UseCases.Test/UseCases.Test.csproj
-        
+      - name: Restore dependencies
+        run: dotnet restore Gerenciador-de-Barbearia.sln
 
-      - name: Run WebApi Unit Tests
-        run: dotnet test Gerenciador-de-Barbearia/tests/WebApi.Test/WebApi.Test.csproj
-       
+      - name: Run Unit Tests
+        run: dotnet test Gerenciador-de-Barbearia.sln
