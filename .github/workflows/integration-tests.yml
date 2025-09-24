@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  integration-tests:
+  run-integration-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restaurar dependências
-        run: dotnet restore
+        run: dotnet restore ./BarberBoss.sln
 
       - name: Rodar testes de integração
-        run: dotnet test --filter TestCategory=Integration --no-build --verbosity normal
+        run: dotnet test ./tests --no-build --verbosity normal
