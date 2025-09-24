@@ -9,23 +9,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{074C8661-4D41-4010-8DBE-70FD2BAA8848}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Application", "src\BarberBoss.Application\BarberBoss.Application.csproj", "{725B71E5-674D-4E92-933F-07FD89147DF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Application", "src/BarberBoss.Application/BarberBoss.Application.csproj", "{725B71E5-674D-4E92-933F-07FD89147DF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Communication", "src\BarberBoss.Communication\BarberBoss.Communication.csproj", "{EE03C1AD-26BC-4B18-99F0-328EEF11FB51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Communication", "src/BarberBoss.Communication/BarberBoss.Communication.csproj", "{EE03C1AD-26BC-4B18-99F0-328EEF11FB51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Domain", "src\BarberBoss.Domain\BarberBoss.Domain.csproj", "{A547632B-AB72-452C-8715-33E7ACDA6B9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Domain", "src/BarberBoss.Domain/BarberBoss.Domain.csproj", "{A547632B-AB72-452C-8715-33E7ACDA6B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Infrastructure", "src\BarberBoss.Infrastructure\BarberBoss.Infrastructure.csproj", "{BFF1F9F0-BE3A-4413-9FF4-C328C4DB0074}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Infrastructure", "src/BarberBoss.Infrastructure/BarberBoss.Infrastructure.csproj", "{BFF1F9F0-BE3A-4413-9FF4-C328C4DB0074}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Exception", "src\BarberBoss.Exception\BarberBoss.Exception.csproj", "{8BA6F044-68EF-40AE-AE1C-443949520430}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Exception", "src/BarberBoss.Exception/BarberBoss.Exception.csproj", "{8BA6F044-68EF-40AE-AE1C-443949520430}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTestUtilities", "tests\CommonTestUtilities\CommonTestUtilities.csproj", "{C9ADCA47-C418-4625-B0C5-ADB20A2FBD10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTestUtilities", "tests/CommonTestUtilities/CommonTestUtilities.csproj", "{C9ADCA47-C418-4625-B0C5-ADB20A2FBD10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators.Tests", "tests\Validators.Tests\Validators.Tests.csproj", "{6A821C03-C3F1-4441-B4A2-FAF80CDA97A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators.Tests", "tests/Validators.Tests/Validators.Tests.csproj", "{6A821C03-C3F1-4441-B4A2-FAF80CDA97A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseCases.Test", "tests\UseCases.Test\UseCases.Test.csproj", "{B0570675-8D6F-452F-B2FF-1C898EA700B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseCases.Test", "tests/UseCases.Test/UseCases.Test.csproj", "{B0570675-8D6F-452F-B2FF-1C898EA700B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests\WebApi.Test\WebApi.Test.csproj", "{E3F01AAA-D98D-4D62-A237-D5BF5974D44D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests/WebApi.Test/WebApi.Test.csproj", "{E3F01AAA-D98D-4D62-A237-D5BF5974D44D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
