@@ -22,4 +22,7 @@ jobs:
         run: dotnet restore BarberBoss.sln
 
       - name: Run Integration Tests
-        run: dotnet test BarberBoss.sln --filter Category=Integration --verbosity normal
+        run: |
+          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --filter Category=Integration --verbosity normal
+          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --filter Category=Integration --verbosity normal
+          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --filter Category=Integration --verbosity normal
