@@ -22,4 +22,4 @@ jobs:
         run: dotnet restore ./BarberBoss.sln
 
       - name: Rodar Integration Tests
-        run: dotnet test ./tests --no-build --verbosity normal
+        run: dotnet test ./BarberBoss.sln --no-build --verbosity normal
