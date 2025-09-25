@@ -1,7 +1,7 @@
 # 💈 BarberShop Manager API – Gerenciador de Barbearia
 
 ## 📌 Sobre o Projeto
-O **BarberShop Manager API**, desenvolvido em .NET, segue os princípios do Domain-Driven Design (DDD), com foco em organizar e automatizar a geração de relatórios semanais de faturamento da barbearia.
+O **BarberShop Manager API**, desenvolvido em .NET, segue os princípios de Domain-Driven Design (DDD), com foco em organizar e automatizar a geração de relatórios semanais de faturamento da barbearia.
 
 O sistema possibilita registrar serviços realizados, clientes atendidos e formas de pagamento, consolidando os dados em um **relatório PDF semanal** no formato mostrado abaixo:
 
