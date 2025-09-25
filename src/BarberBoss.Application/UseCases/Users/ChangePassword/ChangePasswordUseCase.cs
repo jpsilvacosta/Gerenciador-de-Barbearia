@@ -38,7 +38,7 @@ namespace BarberBoss.Application.UseCases.Users.ChangePassword
             var user = await _repository.GetById(loggedUser.Id);
             user.Password = _passwordEncrypter.Encrypt(request.NewPassword);
 
-            _repository.Update(user);
+            await _repository.Update(user);
 
             await _unitOfWork.Commit();
         }

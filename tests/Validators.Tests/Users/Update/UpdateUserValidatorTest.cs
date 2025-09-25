@@ -35,6 +35,7 @@ namespace Validators.Tests.Users.Update
             result.Errors.Should().ContainSingle().And.Contain(e => e.ErrorMessage.Equals(ResourceErrorMessages.NAME_REQUIRED));
         }
 
+        [Theory]
         [InlineData("")]
         [InlineData("      ")]
         [InlineData(null)]

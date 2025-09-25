@@ -28,7 +28,7 @@ namespace UseCases.Test.Services.Update
 
             await act.Should().NotThrowAsync();
 
-            service.ServiceType.Should().Be((BarberBoss.Domain.Enums.ServiceType)request.ServiceType);
+            service.ServiceType.Should().Be((BarberBoss.Domain.Enums.ServiceType?)request.ServiceType);
             service.Description.Should().Be(request.Description);
             service.Date.Should().Be(request.Date);
             service.Amount.Should().Be(request.Amount);
