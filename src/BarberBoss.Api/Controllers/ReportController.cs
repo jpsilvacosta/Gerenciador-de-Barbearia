@@ -9,14 +9,31 @@ namespace BarberBoss.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = Roles.ADMIN)]
     public class ReportController : ControllerBase
     {
-        [HttpGet("pdf")]
+        [HttpGet("pdf-onlyAdmin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Authorize(Roles = Roles.ADMIN)]
+
+        public async Task<IActionResult> GetPdf(
+            [FromServices] IGenerateServicesReportPdfUseCase useCase,
+            [FromQuery] DateOnly week)
+        {
+            byte[] file = await useCase.Execute(week);
+
+            if (file.Length > 0)
+                return File(file, MediaTypeNames.Application.Pdf, "report-pdf");
+
+            return NoContent();
+        }
+
+
+        [HttpGet("pdf-allMembers")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
 
-        public async Task<IActionResult> GetPdf(
+        public async Task<IActionResult> GetPdfAllMembers(
             [FromServices] IGenerateServicesReportPdfUseCase useCase,
             [FromQuery] DateOnly week)
         {
