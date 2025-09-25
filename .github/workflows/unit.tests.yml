@@ -1,0 +1,28 @@
+name: Unit Tests
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore BarberBoss.sln
+
+      - name: Run Unit Tests
+        run: |
+          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --verbosity normal
+          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --verbosity normal
+          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --verbosity normal

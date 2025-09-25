@@ -5,10 +5,10 @@ O **BarberShop Manager API**, desenvolvido em .NET, segue os princípios do Doma
 
 O sistema possibilita registrar serviços realizados, clientes atendidos e formas de pagamento, consolidando os dados em um **relatório PDF semanal** no formato mostrado abaixo:
 
-- Corte de Cabelo  
-- Barba  
-- Combo (Corte + Barba)  
-- Outras categorias personalizáveis  
+- Corte de Cabelo.
+- Barba.  
+- Combo (Corte + Barba).  
+- Outras categorias personalizáveis.
 
 📄 Exemplo de relatório:
 

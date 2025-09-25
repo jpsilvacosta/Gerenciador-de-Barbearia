@@ -1,0 +1,28 @@
+name: Integration Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-integration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore BarberBoss.sln
+
+      - name: Run Integration Tests
+        run: |
+          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --filter Category=Integration --verbosity normal
+          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --filter Category=Integration --verbosity normal
+          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --filter Category=Integration --verbosity normal

@@ -38,7 +38,7 @@ namespace BarberBoss.Application.UseCases.Users.Update
             user.Name = request.Name;
             user.Email = request.Email;
 
-            _repository.Update(user);
+            await _repository.Update(user);
 
             await _unitOfWork.Commit();
 
