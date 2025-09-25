@@ -48,6 +48,7 @@ namespace BarberBoss.Application.UseCases.Services.Reports.Pdf
             CreateHeaderWithProfilePhotoAndName(page);
 
             var totalServices = services.Sum(services => services.Amount);
+            totalServices = Math.Round(totalServices, 2);
             CreateTotalSpentSection(page, week, totalServices);
 
             foreach (var service in services)
@@ -206,7 +207,7 @@ namespace BarberBoss.Application.UseCases.Services.Reports.Pdf
 
         private void AddAmountForService(Cell cell, decimal amount)
         {
-            cell.AddParagraph($"{CURRENCY_SYMBOL}{amount}");
+            cell.AddParagraph($"{CURRENCY_SYMBOL}{amount:F2}");
             cell.Format.Font = new Font { Name = FontHelper.ROBOTO_REGULAR, Size = 10, Color = ColorsHelper.BLACK };
             cell.Shading.Color = ColorsHelper.WHITE;
             cell.VerticalAlignment = VerticalAlignment.Center;

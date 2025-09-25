@@ -9,6 +9,7 @@ using BarberBoss.Infrastructure.Extensions;
 using BarberBoss.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -53,7 +54,16 @@ builder.Services.AddSwaggerGen(config =>
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
-builder.Services.AddInfrastructure(builder.Configuration);
+if (builder.Configuration.GetValue<bool>("InMemoryTest"))
+{
+    builder.Services.AddDbContext<BarberBossDbContext>(options =>
+        options.UseInMemoryDatabase("BarberBossInMemory"));
+}
+else
+{
+    builder.Services.AddInfrastructure(builder.Configuration);
+}
+
 builder.Services.AddApplication();
 
 builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
