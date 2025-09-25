@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/BarberBoss.Application/BarberBoss.Application.csproj" />
-    <ProjectReference Include="../../tests/CommonTestUtilities/CommonTestUtilities.csproj" />
+    <ProjectReference Include="../CommonTestUtilities/CommonTestUtilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
