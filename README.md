@@ -21,7 +21,7 @@ O sistema possibilita registrar serviços realizados, clientes atendidos e forma
 
 
 
-![Exemplo de Relatório](Relatório-Semanal.png)
+![Exemplo de Relatório](image/relatorio-semanal.png)
 
 ---
 
@@ -102,6 +102,14 @@ docker-compose up --build
 ```
 
 Acesse a [documentação oficial do Docker](https://docs.docker.com/) para mais detalhes.
+
+## 🔍 Rodando os Testes
+
+Para executar os testes após clonar o repositório, utilize o comando:
+
+```bash
+dotnet test
+```
 
 ## 🧾 Licença
 Projeto educacional para fins de estudo/demonstração.
