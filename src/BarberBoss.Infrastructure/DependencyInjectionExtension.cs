@@ -28,10 +28,6 @@ namespace BarberBoss.Infrastructure
             AddToken(services, configuration);
             AddRepositories(services);
 
-            if(configuration.IsTestEnvironment() == false)
-            {
-                AddDbContext(services, configuration);
-            }
         }
 
         private static void AddToken(IServiceCollection services, IConfiguration configuration)
@@ -51,15 +47,6 @@ namespace BarberBoss.Infrastructure
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
             services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
-        }
-
-        private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("Connection");
-
-            var serverVersion = ServerVersion.AutoDetect(connectionString);
-
-            services.AddDbContext<BarberBossDbContext>(config => config.UseMySql(connectionString, serverVersion));
         }
     }
 }

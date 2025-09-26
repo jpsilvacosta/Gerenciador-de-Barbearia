@@ -1,11 +1,10 @@
-using BarberBoss.Api.Filters;
+﻿using BarberBoss.Api.Filters;
 using BarberBoss.Api.Middleware;
 using BarberBoss.Api.Token;
 using BarberBoss.Application;
 using BarberBoss.Domain.Security.Tokens;
 using BarberBoss.Infrastructure;
 using BarberBoss.Infrastructure.DataAccess;
-using BarberBoss.Infrastructure.Extensions;
 using BarberBoss.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -26,7 +25,7 @@ builder.Services.AddSwaggerGen(config =>
     {
         Name = "Authorization",
         Description = @"JWT Authorization header usando o esquema Bearer.
-                        Digite 'Bearer' [espa�o] e depois seu token.
+                        Digite 'Bearer' [espaço] e depois seu token.
                         Exemplo: 'Bearer 1234abcdef'",
         In = ParameterLocation.Header,
         Scheme = "Bearer",
@@ -54,14 +53,21 @@ builder.Services.AddSwaggerGen(config =>
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
-if (builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Test"))
 {
-    builder.Services.AddDbContext<BarberBossDbContext>(options => options.UseInMemoryDatabase("BarberBossInMemory"));
+    builder.Services.AddDbContext<BarberBossDbContext>(options =>
+        options.UseInMemoryDatabase("BarberBossInMemory"));
 }
 else
 {
-    builder.Services.AddInfrastructure(builder.Configuration);
+    var connectionString = builder.Configuration.GetConnectionString("Connection");
+    var serverVersion = ServerVersion.AutoDetect(connectionString);
+
+    builder.Services.AddDbContext<BarberBossDbContext>(options =>
+        options.UseMySql(connectionString, serverVersion));
 }
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddApplication();
 
@@ -88,10 +94,13 @@ builder.Services.AddAuthentication(config =>
 
 builder.Services.AddHealthChecks().AddDbContextCheck<BarberBossDbContext>();
 
-builder.WebHost.ConfigureKestrel(options =>
+if (!builder.Environment.IsDevelopment())
 {
-    options.ListenAnyIP(80);
-});
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(80);
+    });
+}
 
 var app = builder.Build();
 
@@ -121,7 +130,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-if (builder.Configuration.IsTestEnvironment() == false)
+if (!builder.Environment.IsDevelopment() && !builder.Environment.IsEnvironment("Test"))
 {
     await MigrateDatabase();
 }
