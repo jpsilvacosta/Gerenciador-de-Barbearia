@@ -71,20 +71,24 @@ O sistema possibilita registrar serviços realizados, clientes atendidos e forma
 git clone https://github.com/jpsilvacosta/Gerenciador-de-Barbearia.git
 cd Gerenciador-de-Barbearia
 ```
-### 2) Suba os containers com Docker Compose:
+### 2) Suba os containers com Docker Compose no Profile "dev" (para ter somente banco InMemory e conseguir testar a aplicação integralmente):
 ```bash
-docker-compose up --build
+docker compose --profile dev up --build
 ```
-> Isto vai subir dois containers:
-- "**barberboss-mysql**:banco MySQL"
-- "**barberboss-api**:sua API .NET"
+> Isto vai subir somente o container API:
+- "**barberboss-api**": sua API .NET
 
 ### 3) Aguarde até que o Docker finalize o build.
 ### 4) Acesse a API pelo navegador no endereço:
 ```bash
-http://localhost:5000/swagger
+http://localhost:5001/swagger
 ```
 > Você verá a documentação interativa da API.
+
+## 4.1) Caso queira subir a API em Production para efetuar Migrations com banco MySQL da sua máquina, suba com Docker Compose no Profile "prod":
+```base
+docker compose --profile prod up --build
+```
 
 ## 🛠️ Comandos úteis
 - **Ver logs da API:**
@@ -94,11 +98,6 @@ docker logs barberboss-api
 - **Parar containers:**
 ```bash
 docker-compose down
-```
-- **Recriar do zero(caso dê erro):**
-```bash
-docker-compose down -v
-docker-compose up --build
 ```
 
 Acesse a [documentação oficial do Docker](https://docs.docker.com/) para mais detalhes.
