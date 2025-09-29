@@ -1,4 +1,5 @@
-﻿using BarberBoss.Domain.Entities;
+﻿using BarberBoss.Application.UseCases.Services.Reports.Pdf;
+using BarberBoss.Domain.Entities;
 using BarberBoss.Domain.Enums;
 using BarberBoss.Domain.Security.Cryptography;
 using BarberBoss.Domain.Security.Tokens;
@@ -6,10 +7,9 @@ using BarberBoss.Infrastructure.DataAccess;
 using CommonTestUtilities.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WebApi.Test.Resources;
-using Microsoft.EntityFrameworkCore.InMemory;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using WebApi.Test.Resources;
 
 namespace WebApi.Test
 {
@@ -29,9 +29,16 @@ namespace WebApi.Test
 
                     services.AddDbContext<BarberBossDbContext>(config =>
                     {
-                        config.UseInMemoryDatabase("InMemoryDbForTesting");
+                        config.UseInMemoryDatabase(Guid.NewGuid().ToString());
                         config.UseInternalServiceProvider(provider);
                     });
+
+                    var descriptor = services.SingleOrDefault(
+                        d => d.ServiceType == typeof(IGenerateServicesReportPdfUseCase));
+                    if (descriptor != null)
+                        services.Remove(descriptor);
+
+                    services.AddScoped<IGenerateServicesReportPdfUseCase, FakeGenerateServicesReportPdfUseCase>();
 
                     var scope = services.BuildServiceProvider().CreateScope();
                     var dbContext = scope.ServiceProvider.GetRequiredService<BarberBossDbContext>();
@@ -43,19 +50,20 @@ namespace WebApi.Test
         }
 
         private void StartDatabase(
-          BarberBossDbContext dbContext,
-          IPasswordEncrypter passwordEncrypter,
-          IAccessTokenGenerator accessGenerator)
+            BarberBossDbContext dbContext,
+            IPasswordEncrypter passwordEncrypter,
+            IAccessTokenGenerator accessTokenGenerator)
         {
-            var fixedDate = new DateTime(2024, 12, 1);
+            dbContext.Database.EnsureDeleted();
+            dbContext.Database.EnsureCreated();
 
-            var userTeamMember = AddUserTeamMember(dbContext, passwordEncrypter, accessGenerator);
-            var servicesTeamMember = AddServicesForMonth(dbContext, userTeamMember, fixedDate);
-            Service_MemberTeam = new ServiceIdentityManager(servicesTeamMember.First());
+            var userTeamMember = AddUserTeamMember(dbContext, passwordEncrypter, accessTokenGenerator);
+            var serviceTeamMember = AddServices(dbContext, userTeamMember, serviceId: 1);
+            Service_MemberTeam = new ServiceIdentityManager(serviceTeamMember);
 
-            var userAdmin = AddUserAdmin(dbContext, passwordEncrypter, accessGenerator);
-            var servicesAdmin = AddServicesForMonth(dbContext, userAdmin, fixedDate);
-            Service_Admin = new ServiceIdentityManager(servicesAdmin.First());
+            var userAdmin = AddUserAdmin(dbContext, passwordEncrypter, accessTokenGenerator);
+            var serviceAdmin = AddServices(dbContext, userAdmin, serviceId: 2);
+            Service_Admin = new ServiceIdentityManager(serviceAdmin);
 
             dbContext.SaveChanges();
         }
@@ -98,35 +106,30 @@ namespace WebApi.Test
             IPasswordEncrypter passwordEncrypter,
             IAccessTokenGenerator accessTokenGenerator)
         {
-
             var user = UserBuilder.Build(Roles.ADMIN);
             user.Id = 2;
 
             var password = user.Password;
-            user.Password = passwordEncrypter.Encrypt(user.Password);
+            user.Password = passwordEncrypter.Encrypt(password);
 
             dbContext.Users.Add(user);
 
             var token = accessTokenGenerator.Generate(user);
-
             User_Admin = new UserIdentityManager(user, password, token);
 
             return user;
         }
 
-        private List<Service> AddServicesForMonth(
+        private Service AddServices(
            BarberBossDbContext dbContext,
            User user,
-           DateTime fixedDate)
+           long serviceId)
         {
-            var services = ServiceBuilder.BuildForMonth(user, fixedDate);
+            var service = ServiceBuilder.Build(user);
+            service.Id = serviceId;
 
-            dbContext.Services.AddRange(services);
-            dbContext.SaveChanges();
-
-            return services;
+            dbContext.Services.Add(service);
+            return service;
         }
     }
-
-
 }

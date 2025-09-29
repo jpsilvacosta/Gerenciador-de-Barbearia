@@ -8,6 +8,7 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Users.Update
 {
+    [Collection("Integration Tests")]
     public class UpdateUserTest : BarberBossClassFixture
     {
         private const string METHOD = "api/User";

@@ -9,6 +9,7 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Services.Register
 {
+    [Collection("Integration Tests")]
     public class RegisterServiceTest : BarberBossClassFixture
     {
         private const string METHOD = "api/Service";

@@ -17,18 +17,13 @@ namespace BarberBoss.Infrastructure.DataAccess.Repositories
         {
             await _dbContext.Services.AddAsync(service);
         }
-        public async Task<bool> Delete(long id)
+        public async Task Delete(long id)
         {
-            var result = await _dbContext.Services.FirstOrDefaultAsync(service => service.Id == id);
-            if (result is null)
-            {
-                return false;
-            }
-            _dbContext.Services.Remove(result);
+            var result = await _dbContext.Services.FindAsync(id);
 
-            return true;
+            _dbContext.Services.Remove(result!);
         }
-
+    
         public async Task<List<Service>> FilterByWeek(User user, DateOnly date)
         {
             var currentDate = date.ToDateTime(TimeOnly.MinValue);
@@ -52,12 +47,12 @@ namespace BarberBoss.Infrastructure.DataAccess.Repositories
 
         async Task<Service?> IServicesReadOnlyRepository.GetById(User user, long id)
         {
-            return await _dbContext.Services.AsNoTracking().FirstOrDefaultAsync(service => service.Id == id);
+            return await _dbContext.Services.AsNoTracking().FirstOrDefaultAsync(service => service.Id == id && service.UserId == user.Id);
         }
 
         async Task<Service?> IServicesUpdateOnlyRepository.GetById(User user, long id)
         {
-            return await _dbContext.Services.FirstOrDefaultAsync(service => service.Id == id && service.UserId == user.Id);
+            return await _dbContext.Services.AsNoTracking().FirstOrDefaultAsync(service => service.Id == id && service.UserId == user.Id);
         }
 
         public void Update(Service service)

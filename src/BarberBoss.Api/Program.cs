@@ -58,6 +58,8 @@ if (builder.Configuration.GetValue<bool>("InMemoryTest"))
 {
     builder.Services.AddDbContext<BarberBossDbContext>(options =>
         options.UseInMemoryDatabase("BarberBossInMemory"));
+
+    builder.Services.AddInfrastructureWithoutDbContext(builder.Configuration);
 }
 else
 {

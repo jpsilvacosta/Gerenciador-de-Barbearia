@@ -4,6 +4,7 @@ using System.Text.Json;
 
 namespace WebApi.Test.Services.GetAll
 {
+    [Collection("Integration Tests")]
     public class GetAllServiceTest : BarberBossClassFixture
     {
         private const string METHOD = "api/Service";

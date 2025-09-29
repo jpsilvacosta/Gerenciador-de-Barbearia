@@ -3,6 +3,7 @@ using System.Net;
 
 namespace WebApi.Test.Users.Delete
 {
+    [Collection("Integration Tests")]
     public class DeleteUserAccountTest : BarberBossClassFixture
     {
         private const string METHOD = "api/User";

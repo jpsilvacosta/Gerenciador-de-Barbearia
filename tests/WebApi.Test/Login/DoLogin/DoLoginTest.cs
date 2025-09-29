@@ -9,6 +9,7 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Login.DoLogin
 {
+    [Collection("Integration Tests")]
     public class DoLoginTest : BarberBossClassFixture
     {
         private const string METHOD = "api/Login";

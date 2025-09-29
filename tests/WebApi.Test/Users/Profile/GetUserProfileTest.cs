@@ -4,6 +4,7 @@ using System.Text.Json;
 
 namespace WebApi.Test.Users.Profile
 {
+    [Collection("Integration Tests")]
     public class GetUserProfileTest : BarberBossClassFixture
     {
         private const string METHOD = "api/User";

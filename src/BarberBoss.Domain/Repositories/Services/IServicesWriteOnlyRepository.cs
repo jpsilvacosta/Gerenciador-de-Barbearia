@@ -6,6 +6,6 @@ namespace BarberBoss.Domain.Repositories.Services
     {
         Task Add(Service service);
 
-        Task<bool> Delete(long id);
+        Task Delete(long id);
     }
 }

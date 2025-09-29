@@ -4,6 +4,7 @@ using System.Net.Mime;
 
 namespace WebApi.Test.Services.Reports
 {
+    [Collection("Integration Tests")]
     public class GenerateServicesReportTest : BarberBossClassFixture
     {
         private const string METHOD = "api/Report";
@@ -24,7 +25,7 @@ namespace WebApi.Test.Services.Reports
         public async Task Success_Pdf()
         {
             var result = await DoGet(
-               requestUri: $"{METHOD}/pdf?week={_fixedDate:yyyy-MM-dd}",
+               requestUri: $"{METHOD}/pdf-allMembers?week={_fixedDate:yyyy-MM-dd}",
                token: _adminToken);
 
             result.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -38,7 +39,7 @@ namespace WebApi.Test.Services.Reports
         public async Task Error_Forbidden_User_Not_Allowed_Pdf()
         {
             var result = await DoGet(
-                requestUri: $"{METHOD}/pdf?month={_fixedDate:yyyy-MM}",
+                requestUri: $"{METHOD}/pdf-onlyAdmin?month={_fixedDate:yyyy-MM}",
                 token: _teamMemberToken);
 
             result.StatusCode.Should().Be(HttpStatusCode.Forbidden);

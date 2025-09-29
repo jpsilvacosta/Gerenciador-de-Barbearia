@@ -29,28 +29,15 @@ namespace CommonTestUtilities.Entities
         public static Service Build(User user, DateTime? fixedDate = null)
         {
             return new Faker<Service>()
-            .RuleFor(u => u.Id, _ => 0)
+            .RuleFor(u => u.Id, _ => 1)
             .RuleFor(u => u.ServiceType, f => f.PickRandom<ServiceType>())
-            .RuleFor(u => u.Date, _ => fixedDate ?? DateTime.UtcNow.Date)
+            .RuleFor(u => u.Description, f => f.Finance.ToString())
+            .RuleFor(u => u.Date, faker => faker.Date.Past())
             .RuleFor(u => u.Amount, f => f.Random.Decimal(min: 1, max: 1000))
             .RuleFor(u => u.PaymentType, f => f.PickRandom<PaymentType>())
             .RuleFor(u => u.UserId, _ => user.Id)
             .Generate();
         }
 
-        public static List<Service> BuildForMonth(User user, DateTime fixedDate)
-        {
-            var services = new List<Service>();
-
-            for (int week = 0; week < 4; week++)
-            {
-                var date = new DateTime(fixedDate.Year, fixedDate.Month, 1)
-                    .AddDays(week * 7);
-
-                services.Add(Build(user, date));
-            }
-
-            return services;
-        }
     }
 }

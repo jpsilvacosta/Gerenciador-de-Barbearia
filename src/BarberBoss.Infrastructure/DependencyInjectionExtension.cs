@@ -10,10 +10,8 @@ using BarberBoss.Infrastructure.Extensions;
 using BarberBoss.Infrastructure.Security.Tokens;
 using BarberBoss.Infrastructure.Services.LoggedUser;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Security.Permissions;
 
 namespace BarberBoss.Infrastructure
 {
@@ -24,14 +22,22 @@ namespace BarberBoss.Infrastructure
             services.AddScoped<IPasswordEncrypter, Security.Cryptography.BCrypt>();
             services.AddScoped<ILoggedUser, LoggedUser>();
 
-
             AddToken(services, configuration);
             AddRepositories(services);
 
-            if(configuration.IsTestEnvironment() == false)
+            if (configuration.IsTestEnvironment() == false)
             {
                 AddDbContext(services, configuration);
             }
+        }
+
+        public static void AddInfrastructureWithoutDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IPasswordEncrypter, Security.Cryptography.BCrypt>();
+            services.AddScoped<ILoggedUser, LoggedUser>();
+
+            AddToken(services, configuration);
+            AddRepositories(services);
         }
 
         private static void AddToken(IServiceCollection services, IConfiguration configuration)
@@ -56,10 +62,10 @@ namespace BarberBoss.Infrastructure
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("Connection");
-
             var serverVersion = ServerVersion.AutoDetect(connectionString);
 
             services.AddDbContext<BarberBossDbContext>(config => config.UseMySql(connectionString, serverVersion));
         }
     }
+
 }

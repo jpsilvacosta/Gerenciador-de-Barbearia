@@ -9,6 +9,7 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Users.ChangePassword
 {
+    [Collection("Integration Tests")]
     public class ChangePasswordTest : BarberBossClassFixture
     {
         private const string METHOD = "api/User/change-password";

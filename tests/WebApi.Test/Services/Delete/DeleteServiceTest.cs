@@ -1,20 +1,22 @@
 ﻿using BarberBoss.Exception;
 using FluentAssertions;
-using Microsoft.OpenApi.Services;
 using System.Net;
 using System.Text.Json;
 using WebApi.Test.InlineData;
 using System.Globalization;
+using Xunit.Abstractions;
 
 namespace WebApi.Test.Services.Delete
 {
+    [Collection("Integration Tests")]
     public class DeleteServiceTest : BarberBossClassFixture
     {
         private const string METHOD = "api/Service";
         private readonly string _token;
         private readonly long _serviceId;
 
-        public DeleteServiceTest(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+        public DeleteServiceTest(CustomWebApplicationFactory webApplicationFactory)
+            : base(webApplicationFactory)
         {
             _token = webApplicationFactory.User_Team_Member.GetToken();
             _serviceId = webApplicationFactory.Service_MemberTeam.GetId();
@@ -41,16 +43,12 @@ namespace WebApi.Test.Services.Delete
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
             var body = await result.Content.ReadAsStreamAsync();
-
             var response = await JsonDocument.ParseAsync(body);
 
             var errors = response.RootElement.GetProperty("errorMessages").EnumerateArray();
-
             var expectedMessage = ResourceErrorMessages.ResourceManager.GetString("SERVICE_NOT_FOUND", new CultureInfo(culture));
 
             errors.Should().HaveCount(1).And.Contain(error => error.GetString()!.Equals(expectedMessage));
-
-
         }
     }
 }

@@ -8,6 +8,7 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Services.GetById
 {
+    [Collection("Integration Tests")]
     public class GetServiceByIdTest : BarberBossClassFixture
     {
         private const string METHOD = "api/Service";

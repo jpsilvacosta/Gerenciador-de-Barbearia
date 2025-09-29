@@ -8,6 +8,7 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Users.Register
 {
+    [Collection("Integration Tests")]
     public class RegisterUserTest : BarberBossClassFixture
     {
         private const string METHOD = "api/User";
