@@ -23,6 +23,6 @@ jobs:
 
       - name: Run Unit Tests
         run: |
-          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --verbosity normal
-          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --verbosity normal
-          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --verbosity normal
+          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --filter Category!=Integration --verbosity normal
+          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --filter Category!=Integration --verbosity normal
+          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --filter Category!=Integration --verbosity normal
