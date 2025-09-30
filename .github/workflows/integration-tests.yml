@@ -21,8 +21,25 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore BarberBoss.sln
 
-      - name: Run Integration Tests
+      - name: Subir containers com Docker Compose (override de testes)
+        run: docker compose -f docker-compose.yml -f docker-compose.override.yml up -d db api
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+
+      - name: Aguardar DB ficar pronto
         run: |
-          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --filter Category=Integration --verbosity normal
-          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --filter Category=Integration --verbosity normal
-          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --filter Category=Integration --verbosity normal
+          echo "Aguardando MySQL iniciar..."
+          for i in {1..15}; do
+            if docker exec barberboss-mysql mysqladmin ping -h "localhost" -p${MYSQL_ROOT_PASSWORD} --silent; then
+              echo "MySQL está pronto!"
+              exit 0
+            fi
+            echo "Tentando novamente em 5s..."
+            sleep 5
+          done
+          echo "MySQL não ficou pronto a tempo" >&2
+          exit 1
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+
+      - name: Run Integration Tests
