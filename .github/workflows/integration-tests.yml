@@ -25,30 +25,21 @@ jobs:
         run: docker compose -f docker-compose.yml -f docker-compose.override.yml up -d db api
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
       - name: Aguardar DB ficar pronto
         run: |
-          for i in {1..30}; do
-            if docker exec barberboss-mysql mysqladmin ping -h "localhost" -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; then
-              echo "✅ Banco está pronto!"
+          echo "Aguardando MySQL iniciar..."
+          for i in {1..15}; do
+            if docker exec barberboss-mysql mysqladmin ping -h "localhost" -p${MYSQL_ROOT_PASSWORD} --silent; then
+              echo "MySQL está pronto!"
               exit 0
             fi
-            echo "⏳ Aguardando banco subir ($i/30)..."
-            sleep 2
+            echo "Tentando novamente em 5s..."
+            sleep 5
           done
-          echo "❌ Banco não subiu a tempo"
+          echo "MySQL não ficou pronto a tempo" >&2
           exit 1
-
-      - name: Run Integration Tests
-        run: |
-          dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --filter Category=Integration --verbosity normal
-          dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --filter Category=Integration --verbosity normal
-          dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --filter Category=Integration --verbosity normal
-
-      - name: Derrubar containers
-        if: always()
-        run: docker compose -f docker-compose.yml -f docker-compose.override.yml down
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+
+      - name: Run Integration Tests
