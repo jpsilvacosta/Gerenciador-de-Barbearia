@@ -21,8 +21,28 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore BarberBoss.sln
 
+      - name: Subir containers com Docker Compose (override de testes)
+        run: docker compose -f docker-compose.yml -f docker-compose.override.yml up -d
+
+      - name: Aguardar DB ficar pronto
+        run: |
+          for i in {1..10}; do
+            if docker exec barberboss-mysql-test mysql -uroot -p@Password123 -e "SELECT 1;" > /dev/null 2>&1; then
+              echo "Banco de dados pronto!"
+              exit 0
+            fi
+            echo "Aguardando banco de dados subir..."
+            sleep 5
+          done
+          echo "Banco não respondeu a tempo."
+          exit 1
+
       - name: Run Integration Tests
         run: |
           dotnet test ./tests/UseCases.Test/UseCases.Test.csproj --filter Category=Integration --verbosity normal
           dotnet test ./tests/Validators.Tests/Validators.Tests.csproj --filter Category=Integration --verbosity normal
           dotnet test ./tests/WebApi.Test/WebApi.Test.csproj --filter Category=Integration --verbosity normal
+
+      - name: Derrubar containers
+        if: always()
+        run: docker compose -f docker-compose.yml -f docker-compose.override.yml down
