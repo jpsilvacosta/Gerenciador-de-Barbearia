@@ -1,7 +1,7 @@
 # 💈 BarberShop Manager API – Gerenciador de Barbearia
 
 ## 📌 Sobre o Projeto
-O **BarberShop Manager API**, desenvolvido em .NET, segue os princípios do Domain-Driven Design (DDD), com foco em organizar e automatizar a geração de relatórios semanais de faturamento da barbearia.
+O **BarberShop Manager API**, desenvolvido em .NET, segue os princípios de Domain-Driven Design (DDD), com foco em organizar e automatizar a geração de relatórios semanais de faturamento da barbearia.
 
 O sistema possibilita registrar serviços realizados, clientes atendidos e formas de pagamento, consolidando os dados em um **relatório PDF semanal** no formato mostrado abaixo:
 
@@ -21,7 +21,7 @@ O sistema possibilita registrar serviços realizados, clientes atendidos e forma
 
 
 
-![Exemplo de Relatório](Relatório-Semanal.png)
+![Exemplo de Relatório](image/relatorio-semanal.png)
 
 ---
 
@@ -58,8 +58,57 @@ O sistema possibilita registrar serviços realizados, clientes atendidos e forma
 - Visual Studio 2022+ ou Visual Studio Code  
 - Windows 10+  
 - Banco de Dados MySQL rodando localmente ou em container Docker  
+- **Docker Desktop** (para rodar com Docker)  
 
-### ⚙️ Instalação
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/jpsilvacosta/Gerenciador-de-Barbearia.git
+---
+
+## 🐳 Rodando com Docker (Recomendado)
+
+> Este repositório já inclui **Dockerfile** e **docker-compose.yml** configurados para subir **API + MySQL**.
+
+### 1) Clonar o repositório
+```bash
+git clone https://github.com/jpsilvacosta/Gerenciador-de-Barbearia.git
+cd Gerenciador-de-Barbearia
+```
+### 2) Suba os containers com Docker Compose no Profile "dev" (para ter somente banco InMemory e conseguir testar a aplicação integralmente):
+```bash
+docker compose --profile dev up --build
+```
+> Isto vai subir somente o container API:
+- "**barberboss-api**": sua API .NET
+
+### 3) Aguarde até que o Docker finalize o build.
+### 4) Acesse a API pelo navegador no endereço:
+```bash
+http://localhost:5001/swagger
+```
+> Você verá a documentação interativa da API.
+
+## 4.1) Caso queira subir a API em Production para efetuar Migrations com banco MySQL da sua máquina, suba com Docker Compose no Profile "prod":
+```base
+docker compose --profile prod up --build
+```
+
+## 🛠️ Comandos úteis
+- **Ver logs da API:**
+```bash
+docker logs barberboss-api
+```
+- **Parar containers:**
+```bash
+docker-compose down
+```
+
+Acesse a [documentação oficial do Docker](https://docs.docker.com/) para mais detalhes.
+
+## 🔍 Rodando os Testes
+
+Para executar os testes após clonar o repositório, utilize o comando:
+
+```bash
+dotnet test
+```
+
+## 🧾 Licença
+Projeto educacional para fins de estudo/demonstração.

@@ -134,7 +134,7 @@ namespace BarberBoss.Application.UseCases.Services.Reports.Pdf
 
             var assembly = Assembly.GetExecutingAssembly();
             var directoryName = Path.GetDirectoryName(assembly.Location);
-            var pathFile = Path.Combine(directoryName!, "Logo", "foto linkedin 62x62.png");
+            var pathFile = Path.Combine(directoryName!, "Logo", "foto-linkedin-62x62.png");
 
             row.Cells[0].AddImage(pathFile);
 
