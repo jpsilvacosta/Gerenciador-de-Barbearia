@@ -9,10 +9,6 @@ jobs:
   run-integration-tests:
     runs-on: ubuntu-latest
 
-    env:
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-
     steps:
       - name: Checkout código
         uses: actions/checkout@v3
@@ -26,15 +22,23 @@ jobs:
         run: dotnet restore BarberBoss.sln
 
       - name: Subir containers com Docker Compose (override de testes)
-        working-directory: .
-        run: |
-          docker compose -f docker-compose.yml -f docker-compose.override.yml up -d
+        run: docker compose -f docker-compose.yml -f docker-compose.override.yml up -d db api
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
       - name: Aguardar DB ficar pronto
         run: |
-          echo "Esperando o MySQL inicializar..."
-          sleep 25
-          docker ps -a
+          for i in {1..30}; do
+            if docker exec barberboss-mysql mysqladmin ping -h "localhost" -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; then
+              echo "✅ Banco está pronto!"
+              exit 0
+            fi
+            echo "⏳ Aguardando banco subir ($i/30)..."
+            sleep 2
+          done
+          echo "❌ Banco não subiu a tempo"
+          exit 1
 
       - name: Run Integration Tests
         run: |
@@ -44,6 +48,7 @@ jobs:
 
       - name: Derrubar containers
         if: always()
-        working-directory: .
-        run: |
-          docker compose -f docker-compose.yml -f docker-compose.override.yml down
+        run: docker compose -f docker-compose.yml -f docker-compose.override.yml down
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
