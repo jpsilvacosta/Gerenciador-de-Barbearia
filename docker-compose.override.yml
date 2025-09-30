@@ -1,15 +1,17 @@
+version: "3.9"
+
 services:
   db:
     image: mysql:8
-    container_name: barberboss-mysql-test
+    container_name: barberboss-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "@Password123"
-      MYSQL_DATABASE: barberbossdb_test
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: barberbossdb
     ports:
-      - "3307:3306"   # Porta diferente da prod para não conflitar
+      - "3306:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p@Password123"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -19,13 +21,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: barberboss-api-test
+    container_name: barberboss-api
     ports:
-      - "5002:8080"
+      - "5000:80"
     environment:
-      ASPNETCORE_ENVIRONMENT: Test
-      UseInMemoryDatabase: "false"
-      ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=barberbossdb_test;User=root;Password=@Password123;"
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "server=db;port=3306;database=barberbossdb;user=root;password=${MYSQL_ROOT_PASSWORD}" # ✅ usa secret também
     depends_on:
       db:
         condition: service_healthy
